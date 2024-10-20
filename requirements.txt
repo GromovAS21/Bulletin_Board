@@ -4,3 +4,7 @@ djangorestframework-simplejwt
 psycopg2-binary
 python-dotenv
 pillow
+
+ipython
+black
+isort
