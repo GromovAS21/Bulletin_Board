@@ -1,6 +1,8 @@
 django==5.1.2
 djangorestframework
 djangorestframework-simplejwt
+django-cors-headers
+drf-yasg
 psycopg2-binary
 python-dotenv
 pillow
