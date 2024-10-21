@@ -11,12 +11,13 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
 
         model = User
-        fields = ("id", "email", "first_name", "last_name", "role", "image")
+        fields = ("id", "email", "first_name", "last_name", "role", "image", "is_active", "is_staff", "is_superuser")
+        read_only_fields = ("is_active", "is_staff", "is_superuser")
 
 
 class UserCreateSerializer(serializers.ModelSerializer):
     """
-    Сериализатор для модели User
+    Сериализатор для создания нового пользователя
     """
 
     class Meta:
