@@ -1,9 +1,8 @@
-from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import generics, viewsets
 from rest_framework.permissions import AllowAny
 
-from announcements.models import Announcement
-from announcements.serializers import AnnouncementSerializer
+from announcements.models import Announcement, Review
+from announcements.serializers import AnnouncementSerializer, ReviewSerializer
 
 
 class AnnouncementsListAPIView(generics.ListAPIView):
@@ -51,3 +50,15 @@ class AnnouncementsDestroyAPIView(generics.DestroyAPIView):
     """
 
     queryset = Announcement.objects.all()
+
+
+class ReviewViewSet(viewsets.ModelViewSet):
+    """
+    Представление для модели Review
+    """
+
+    serializer_class = ReviewSerializer
+    queryset = Review.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
