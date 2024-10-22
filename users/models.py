@@ -54,7 +54,6 @@ class User(AbstractUser):
         verbose_name="Токен пользователя",
         blank=True,
         null=True,
-
     )
 
     USERNAME_FIELD = "email"

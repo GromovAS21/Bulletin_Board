@@ -1,5 +1,3 @@
-from enum import unique
-
 from rest_framework import serializers
 
 from users.models import User
