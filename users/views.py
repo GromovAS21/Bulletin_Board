@@ -7,11 +7,10 @@ from rest_framework import viewsets
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from yaml import serialize
 
 from config.settings import EMAIL_HOST_USER
 from users.models import User
-from users.serializers import UserSerializer, UserCreateSerializer
+from users.serializers import UserSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -27,10 +26,6 @@ class UserViewSet(viewsets.ModelViewSet):
             self.permission_classes = (AllowAny,)
         return super().get_permissions()
 
-    def get_serializer_class(self):
-        if self.action == "create":
-            return UserCreateSerializer
-        return super().get_serializer_class()
 
     def perform_create(self, serializer):
         user = serializer.save()
@@ -60,6 +55,7 @@ class EmailConfirmAPIView(APIView):
         user.save(update_fields=["is_active"])
         return Response({"message": "Ваша учетная запись подтверждена!"})
 
+
 class ResetPasswordApiView(APIView):
     """
     Представление для сброса пароля
@@ -68,6 +64,8 @@ class ResetPasswordApiView(APIView):
     def post(self, request):
 
         email = request.data.get("email")
+        if not email:
+            return Response({"email": "Необходимо ввести email"})
         user = get_object_or_404(User, email=email)
         if user:
             host = self.request.get_host()
@@ -89,8 +87,16 @@ class ResetPasswordConfirmApiView(APIView):
     def post(self, request):
 
        uid = request.data.get("uid")
+       if not uid:
+           return Response({"uid": "Необходимо ввести uid"})
        token = request.data.get("token")
+       if not token:
+           return Response({"token": "Необходимо ввести токен"})
        new_password = request.data.get("new_password")
+       if not new_password:
+           return Response({"new_password": "Необходимо ввести новый пароль"})
+       elif len(new_password) < 8:
+           return Response({"new_password": "Пароль должен быть не менее 8 символов"})
        user = get_object_or_404(User, pk=uid, token=token)
        if user:
            user.set_password(new_password)
