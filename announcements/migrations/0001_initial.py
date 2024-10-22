@@ -62,7 +62,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 "verbose_name": "Объявление",
-                "verbose_name_plural": "Объявления",
+                "verbose_name_plural": "announcements",
                 "ordering": ["-created_at"],
             },
         ),
