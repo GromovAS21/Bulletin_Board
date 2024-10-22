@@ -14,7 +14,6 @@ class Announcement(models.Model):
     )
     price = models.PositiveIntegerField(
         verbose_name="Цена товара",
-        default="Цена не указана"
     )
     description = models.TextField(
         verbose_name="Описание товара",
