@@ -59,7 +59,7 @@ class Review(models.Model):
         null=True,
         related_name="author_reviews",
     )
-    ad = models.ForeignKey(
+    announcement = models.ForeignKey(
         Announcement,
         on_delete=models.CASCADE,
         verbose_name="Объявление",

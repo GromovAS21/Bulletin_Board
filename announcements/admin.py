@@ -20,6 +20,6 @@ class Review(admin.ModelAdmin):
     Админка модели Review
     """
 
-    list_display = ("id", "text", "author", "ad", "created_at")
-    list_filter = ("author", "ad")
+    list_display = ("id", "text", "author", "announcement", "created_at")
+    list_filter = ("author", "announcement")
     search_fields = ("text",)
