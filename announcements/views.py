@@ -1,5 +1,5 @@
 from rest_framework import generics, viewsets
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
 from announcements.models import Announcement, Review
 from announcements.serializers import AnnouncementAdminSerializer, AnnouncementSerializer, ReviewSerializer
