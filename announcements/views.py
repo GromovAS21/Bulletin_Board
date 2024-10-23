@@ -75,3 +75,10 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+    def get_permissions(self):
+        if self.action in ("update", "partial_update", "destroy"):
+            self.permission_classes = (IsOwner | IsAdmin,)
+        elif self.action == "retrieve":
+            self.permission_classes = (IsAdmin,)
+        return super().get_permissions()
