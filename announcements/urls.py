@@ -12,7 +12,7 @@ router.register(r"reviews", ReviewViewSet, basename="reviews")
 
 urlpatterns = [
     path('announcements/', AnnouncementsListAPIView.as_view(), name='announcements_list'),
-    path('announcements/<int:pk>', AnnouncementsRetrieveAPIView.as_view(), name='announcements_retrieve'),
+    path('announcements/<int:pk>/', AnnouncementsRetrieveAPIView.as_view(), name='announcements_retrieve'),
     path('announcements/create/', AnnouncementsCreateAPIView.as_view(), name='announcements_create'),
     path('announcements/<int:pk>/update/', AnnouncementsUpdateAPIView.as_view(), name='announcements_update'),
     path('announcements/<int:pk>/delete/', AnnouncementsDestroyAPIView.as_view(), name='announcements_delete'),

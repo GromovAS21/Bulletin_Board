@@ -27,6 +27,12 @@ class AnnouncementsRetrieveAPIView(generics.RetrieveAPIView):
     serializer_class = AnnouncementSerializer
     queryset = Announcement.objects.all()
 
+    def get_serializer_class(self):
+        if self.request.user.is_staff or self.request.user.is_superuser:
+            return AnnouncementAdminSerializer
+        return AnnouncementSerializer
+
+
 
 class AnnouncementsCreateAPIView(generics.CreateAPIView):
     """
