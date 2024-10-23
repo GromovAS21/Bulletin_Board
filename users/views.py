@@ -2,7 +2,8 @@ import secrets
 
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
-from rest_framework import viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import viewsets, filters
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -19,6 +20,9 @@ class UserViewSet(viewsets.ModelViewSet):
     """
 
     queryset = User.objects.all()
+    filter_backends = (DjangoFilterBackend, filters.SearchFilter,)
+    search_fields = ('email',)
+    filterset_fields = ("role", "is_active", "is_staff")
 
     def get_serializer_class(self):
         if self.request.user.is_staff or self.request.user.is_superuser:

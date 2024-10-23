@@ -1,4 +1,5 @@
-from rest_framework import generics, viewsets
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import generics, viewsets, filters
 from rest_framework.permissions import AllowAny, IsAdminUser
 
 from announcements.models import Announcement, Review
@@ -14,6 +15,10 @@ class AnnouncementsListAPIView(generics.ListAPIView):
     serializer_class = AnnouncementListSerializer
     queryset = Announcement.objects.all()
     permission_classes = (AllowAny, )
+    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filterset_fields = ("author",)
+    search_fields = ("title",)
+    ordering_fields = ("created_at",)
 
 
 
@@ -69,6 +74,9 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
     serializer_class = ReviewSerializer
     queryset = Review.objects.all()
+    filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
+    filterset_fields = ("author", "announcement")
+    ordering_fields = ("created_at",)
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)

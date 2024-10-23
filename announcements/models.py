@@ -40,7 +40,7 @@ class Announcement(models.Model):
         ordering = ["-created_at"]
 
     def __str__(self):
-        return self.title
+        return f"№ {self.pk} - {self.title}"
 
 
 class Review(models.Model):
