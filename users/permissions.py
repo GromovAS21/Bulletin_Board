@@ -1,13 +1,13 @@
 from rest_framework.permissions import BasePermission
 
 
-class IsAdmin(BasePermission):
+class IsSuperUser(BasePermission):
     """
-    Проверяет, является ли пользователь администратором
+    Проверяет, является ли пользователь суперпользователем
     """
 
     def has_permission(self, request, view):
-        return bool(request.user.is_staff or request.user.is_superuser)
+        return bool(request.user.is_superuser)
 
 
 class IsOwner(BasePermission):

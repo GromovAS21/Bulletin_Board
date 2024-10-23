@@ -1,16 +1,16 @@
 import secrets
-from gc import get_objects
 
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from rest_framework import viewsets
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from config.settings import EMAIL_HOST_USER
 from users.models import User
-from users.serializers import UserSerializer
+from users.permissions import IsUserProfile, IsSuperUser
+from users.serializers import ProfileAdminSerializer, ProfileUserSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -19,11 +19,22 @@ class UserViewSet(viewsets.ModelViewSet):
     """
 
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+
+    def get_serializer_class(self):
+        if self.request.user.is_staff or self.request.user.is_superuser:
+            return ProfileAdminSerializer
+        return ProfileUserSerializer
+
 
     def get_permissions(self):
+        if self.action == "list":
+            self.permission_classes = (IsAdminUser, )
         if self.action == "create":
             self.permission_classes = (AllowAny,)
+        if self.action == "retrieve":
+            self.permission_classes = (IsUserProfile | IsAdminUser, )
+        if self.action == "destroy":
+            self.permission_classes = (IsSuperUser,)
         return super().get_permissions()
 
 

@@ -1,10 +1,10 @@
 from rest_framework import generics, viewsets
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAdminUser
 
 from announcements.models import Announcement, Review
 from announcements.serializers import AnnouncementListSerializer, ReviewSerializer, AnnouncementRetrieveAdminSerializer, \
     AnnouncementRetrieveUserSerializer
-from users.permissions import IsAdmin, IsOwner
+from users.permissions import IsOwner
 
 
 class AnnouncementsListAPIView(generics.ListAPIView):
@@ -50,7 +50,7 @@ class AnnouncementsUpdateAPIView(generics.UpdateAPIView):
 
     serializer_class = AnnouncementListSerializer
     queryset = Announcement.objects.all()
-    permission_classes = (IsAdmin | IsOwner,)
+    permission_classes = (IsAdminUser | IsOwner,)
 
 
 class AnnouncementsDestroyAPIView(generics.DestroyAPIView):
@@ -59,7 +59,7 @@ class AnnouncementsDestroyAPIView(generics.DestroyAPIView):
     """
 
     queryset = Announcement.objects.all()
-    permission_classes = (IsAdmin | IsOwner,)
+    permission_classes = (IsAdminUser | IsOwner,)
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
@@ -75,8 +75,8 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         if self.action in ("update", "partial_update", "destroy"):
-            self.permission_classes = (IsOwner | IsAdmin,)
+            self.permission_classes = (IsOwner | IsAdminUser,)
         elif self.action == "retrieve":
-            self.permission_classes = (IsAdmin,)
+            self.permission_classes = (IsAdminUser,)
         return super().get_permissions()
 
