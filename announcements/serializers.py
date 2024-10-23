@@ -3,14 +3,23 @@ from rest_framework import serializers
 from announcements.models import Announcement, Review
 
 
-class AnnouncementSerializer(serializers.ModelSerializer):
+class AnnouncementAdminSerializer(serializers.ModelSerializer):
     """
-    Сериализатор для модели Announcement
+    Сериализатор модели Announcement для администраторов
     """
 
     class Meta:
         model = Announcement
         fields = "__all__"
+
+class AnnouncementSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор модели Announcement для пользователей
+    """
+
+    class Meta:
+        model = Announcement
+        exclude = ("author", "created_at")
 
 
 class ReviewSerializer(serializers.ModelSerializer):

@@ -2,7 +2,7 @@ from rest_framework import generics, viewsets
 from rest_framework.permissions import AllowAny
 
 from announcements.models import Announcement, Review
-from announcements.serializers import AnnouncementSerializer, ReviewSerializer
+from announcements.serializers import AnnouncementAdminSerializer, AnnouncementSerializer, ReviewSerializer
 
 
 class AnnouncementsListAPIView(generics.ListAPIView):
@@ -10,9 +10,13 @@ class AnnouncementsListAPIView(generics.ListAPIView):
     Выводит список всех объявлений
     """
 
-    serializer_class = AnnouncementSerializer
     queryset = Announcement.objects.all()
     permission_classes = (AllowAny, )
+
+    def get_serializer_class(self):
+        if self.request.user.is_staff or self.request.user.is_superuser:
+            return AnnouncementAdminSerializer
+        return AnnouncementSerializer
 
 
 class AnnouncementsRetrieveAPIView(generics.RetrieveAPIView):
