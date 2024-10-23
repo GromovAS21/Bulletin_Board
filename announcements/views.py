@@ -1,8 +1,9 @@
 from rest_framework import generics, viewsets
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny
 
 from announcements.models import Announcement, Review
 from announcements.serializers import AnnouncementAdminSerializer, AnnouncementSerializer, ReviewSerializer
+from users.permissions import IsAdmin, IsOwner
 
 
 class AnnouncementsListAPIView(generics.ListAPIView):
@@ -52,6 +53,7 @@ class AnnouncementsUpdateAPIView(generics.UpdateAPIView):
 
     serializer_class = AnnouncementSerializer
     queryset = Announcement.objects.all()
+    permission_classes = (IsAdmin | IsOwner,)
 
 
 class AnnouncementsDestroyAPIView(generics.DestroyAPIView):
@@ -60,6 +62,7 @@ class AnnouncementsDestroyAPIView(generics.DestroyAPIView):
     """
 
     queryset = Announcement.objects.all()
+    permission_classes = (IsAdmin | IsOwner,)
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
