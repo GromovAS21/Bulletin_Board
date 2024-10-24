@@ -25,3 +25,24 @@ class ProfileAdminSerializer(serializers.ModelSerializer):
 
         model = User
         fields = "__all__"
+
+
+class ResetPasswordSerializer(serializers.Serializer):
+    """
+    Сериализатор для смены пароля
+    """
+
+    email = serializers.EmailField(required=True)
+
+
+class ResetPasswordConfirmSerializer(serializers.Serializer):
+    """
+    Сериализатор для смены пароля
+    """
+
+    uid = serializers.IntegerField(required=True)
+    token = serializers.CharField(required=True)
+    new_password = serializers.CharField(min_length=8, required=True)
+
+
+

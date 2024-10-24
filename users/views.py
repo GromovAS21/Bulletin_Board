@@ -3,7 +3,7 @@ import secrets
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets, filters
+from rest_framework import viewsets, filters, status
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -11,7 +11,8 @@ from rest_framework.views import APIView
 from config.settings import EMAIL_HOST_USER
 from users.models import User
 from users.permissions import IsUserProfile, IsSuperUser
-from users.serializers import ProfileAdminSerializer, ProfileUserSerializer
+from users.serializers import ProfileAdminSerializer, ProfileUserSerializer, ResetPasswordSerializer, \
+    ResetPasswordConfirmSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -77,21 +78,21 @@ class ResetPasswordApiView(APIView):
     """
 
     def post(self, request):
-
-        email = request.data.get("email")
-        if not email:
-            return Response({"email": "Необходимо ввести email"})
-        user = get_object_or_404(User, email=email)
-        if user:
-            host = self.request.get_host()
-            url = f"http//:{host}/{user.pk}/{user.token}"
-            send_mail(
-                "Сброс пароля",
-                f"Для восстановления пароля скопируйте нужные данные со ссылки: {url}",
-                EMAIL_HOST_USER,
-                [user.email]
-            )
-            return Response({"message":"На Вашу электронную почту направлено сообщение для изменения пароля"})
+        serializer = ResetPasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            email = request.data.get("email")
+            user = get_object_or_404(User, email=email)
+            if user:
+                send_mail(
+                    subject="Сброс пароля",
+                    message=f"Данные для восстановления пароля:"
+                            f"\nuid: {user.pk}"
+                            f"\ntoken: {user.token}",
+                    from_email=EMAIL_HOST_USER,
+                    recipient_list=[user.email]
+                )
+                return Response({"message":"На Вашу электронную почту направлено сообщение для изменения пароля"})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ResetPasswordConfirmApiView(APIView):
@@ -100,21 +101,15 @@ class ResetPasswordConfirmApiView(APIView):
     """
 
     def post(self, request):
-
-       uid = request.data.get("uid")
-       if not uid:
-           return Response({"uid": "Необходимо ввести uid"})
-       token = request.data.get("token")
-       if not token:
-           return Response({"token": "Необходимо ввести токен"})
-       new_password = request.data.get("new_password")
-       if not new_password:
-           return Response({"new_password": "Необходимо ввести новый пароль"})
-       elif len(new_password) < 8:
-           return Response({"new_password": "Пароль должен быть не менее 8 символов"})
-       user = get_object_or_404(User, pk=uid, token=token)
-       if user:
-           user.set_password(new_password)
-           user.token = secrets.token_hex(16)
-           user.save()
-           return Response({"message":"Ваш пароль успешно изменен"})
+        serializer = ResetPasswordConfirmSerializer(data=request.data)
+        if serializer.is_valid():
+            uid = request.data.get("uid")
+            token = request.data.get("token")
+            new_password = request.data.get("new_password")
+            user = get_object_or_404(User, pk=uid, token=token)
+            if user:
+               user.set_password(new_password)
+               user.token = secrets.token_hex(16)
+               user.save()
+               return Response({"message":"Ваш пароль успешно изменен"})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
