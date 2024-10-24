@@ -14,6 +14,17 @@ class ReviewSerializer(serializers.ModelSerializer):
         model = Review
         fields = "__all__"
 
+class ReviewUpdateSerializer(serializers.ModelSerializer):
+    """
+    Сериализатор модели Review при изменении
+    """
+
+    author = serializers.CharField(read_only=True)
+    announcement = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = Review
+        fields = "__all__"
 
 class AnnouncementListSerializer(serializers.ModelSerializer):
     """

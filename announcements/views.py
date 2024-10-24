@@ -3,8 +3,9 @@ from rest_framework import generics, viewsets, filters
 from rest_framework.permissions import AllowAny, IsAdminUser
 
 from announcements.models import Announcement, Review
-from announcements.serializers import AnnouncementListSerializer, ReviewSerializer, AnnouncementRetrieveAdminSerializer, \
-    AnnouncementRetrieveUserSerializer
+from announcements.serializers import AnnouncementListSerializer, \
+    AnnouncementRetrieveAdminSerializer, \
+    AnnouncementRetrieveUserSerializer, ReviewSerializer, ReviewUpdateSerializer
 from users.permissions import IsOwner
 
 
@@ -72,7 +73,6 @@ class ReviewViewSet(viewsets.ModelViewSet):
     Представление для модели Review
     """
 
-    serializer_class = ReviewSerializer
     queryset = Review.objects.all()
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
     filterset_fields = ("author", "announcement")
@@ -87,4 +87,15 @@ class ReviewViewSet(viewsets.ModelViewSet):
         elif self.action == "retrieve":
             self.permission_classes = (IsAdminUser,)
         return super().get_permissions()
+
+    def get_serializer_class(self):
+        if self.action in ("update", "partial_update", "list", "retrieve"):
+            return ReviewUpdateSerializer
+        return ReviewSerializer
+
+    def get_queryset(self):
+        if self.request.user.is_staff or self.request.user.is_superuser:
+            return Review.objects.all()
+        return Review.objects.filter(author=self.request.user)
+
 
