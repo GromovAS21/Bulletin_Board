@@ -3,6 +3,7 @@ from rest_framework import generics, viewsets, filters
 from rest_framework.permissions import AllowAny, IsAdminUser
 
 from announcements.models import Announcement, Review
+from announcements.paginations import ADSPagination
 from announcements.serializers import AnnouncementListSerializer, \
     AnnouncementRetrieveAdminSerializer, \
     AnnouncementRetrieveUserSerializer, ReviewSerializer, ReviewUpdateSerializer
@@ -13,6 +14,7 @@ class AnnouncementsListAPIView(generics.ListAPIView):
     """
     Выводит список всех объявлений
     """
+
     serializer_class = AnnouncementListSerializer
     queryset = Announcement.objects.all()
     permission_classes = (AllowAny, )
@@ -22,6 +24,12 @@ class AnnouncementsListAPIView(generics.ListAPIView):
     ordering_fields = ("created_at",)
 
 
+class AnnouncementListADSPaginator(AnnouncementsListAPIView):
+    """
+    Выводит список объявлений с пагинацией в 4 страницы
+    """
+
+    pagination_class = ADSPagination
 
 class AnnouncementsRetrieveAPIView(generics.RetrieveAPIView):
     """
