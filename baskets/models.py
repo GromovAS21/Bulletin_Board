@@ -22,7 +22,6 @@ class Basket(models.Model):
         blank=True,
         null=True
     )
-
     amount = models.PositiveIntegerField(
         verbose_name="Сумма к оплате",
         default=0,
