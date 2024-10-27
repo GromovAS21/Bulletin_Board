@@ -8,6 +8,8 @@ from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from announcements.paginations import ListPagination
+from baskets.models import Basket
 from config.settings import EMAIL_HOST_USER
 from users.models import User
 from users.permissions import IsUserProfile, IsSuperUser
@@ -22,6 +24,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = User.objects.all()
     filter_backends = (DjangoFilterBackend, filters.SearchFilter,)
+    pagination_class = ListPagination
     search_fields = ('email',)
     filterset_fields = ("role", "is_active", "is_staff")
 
@@ -47,6 +50,7 @@ class UserViewSet(viewsets.ModelViewSet):
         user = serializer.save()
         user.is_active = False
         user.set_password(user.password)
+        Basket.objects.create(user=user)
         token = secrets.token_hex(16)
         user.token = token
         host = self.request.get_host()
@@ -58,6 +62,7 @@ class UserViewSet(viewsets.ModelViewSet):
             EMAIL_HOST_USER,
             [user.email]
         )
+
 
 class EmailConfirmAPIView(APIView):
     """

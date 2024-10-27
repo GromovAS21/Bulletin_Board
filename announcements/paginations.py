@@ -7,3 +7,11 @@ class ADSPagination(PageNumberPagination):
     """
 
     page_size = 4
+
+
+class ListPagination(PageNumberPagination):
+    """
+    Вывод списка до 4 объявлений
+    """
+
+    page_size = 10

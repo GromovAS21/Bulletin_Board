@@ -3,7 +3,7 @@ from rest_framework import generics, viewsets, filters
 from rest_framework.permissions import AllowAny, IsAdminUser
 
 from announcements.models import Announcement, Review
-from announcements.paginations import ADSPagination
+from announcements.paginations import ADSPagination, ListPagination
 from announcements.serializers import AnnouncementListSerializer, \
     AnnouncementRetrieveAdminSerializer, \
     AnnouncementRetrieveUserSerializer, ReviewSerializer, ReviewUpdateSerializer
@@ -18,6 +18,7 @@ class AnnouncementsListAPIView(generics.ListAPIView):
     serializer_class = AnnouncementListSerializer
     queryset = Announcement.objects.all()
     permission_classes = (AllowAny, )
+    pagination_class = ListPagination
     filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
     filterset_fields = ("author",)
     search_fields = ("title",)
@@ -83,6 +84,7 @@ class ReviewViewSet(viewsets.ModelViewSet):
 
     queryset = Review.objects.all()
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
+    pagination_class = ListPagination
     filterset_fields = ("author", "announcement")
     ordering_fields = ("created_at",)
 

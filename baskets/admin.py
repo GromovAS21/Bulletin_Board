@@ -8,5 +8,5 @@ class BasketAdmin(admin.ModelAdmin):
     Админка модели Basket
     """
 
-    list_display = ('id', "user")
-    list_filter = ('user',)
+    list_display = ('id', "author")
+    list_filter = ('author',)
