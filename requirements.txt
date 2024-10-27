@@ -1,4 +1,4 @@
-django==5.1.2
+django
 djangorestframework
 djangorestframework-simplejwt
 django-cors-headers
@@ -8,7 +8,6 @@ python-dotenv
 pillow
 django-filter
 docker
-
 ipython
 black
 isort
