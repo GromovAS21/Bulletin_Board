@@ -36,4 +36,4 @@ class Basket(models.Model):
         ordering = ("id",)
 
     def __str__(self):
-        return f"Корзина {self.user.email}"
+        return f"Корзина {self.author.email}"

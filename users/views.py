@@ -50,7 +50,7 @@ class UserViewSet(viewsets.ModelViewSet):
         user = serializer.save()
         user.is_active = False
         user.set_password(user.password)
-        Basket.objects.create(user=user)
+        Basket.objects.create(author=user)
         token = secrets.token_hex(16)
         user.token = token
         host = self.request.get_host()

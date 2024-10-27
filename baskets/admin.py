@@ -9,4 +9,4 @@ class BasketAdmin(admin.ModelAdmin):
     """
 
     list_display = ('id', "author")
-    list_filter = ('author',)
+    search_fields = ("author",)
