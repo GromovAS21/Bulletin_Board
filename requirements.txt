@@ -11,3 +11,5 @@ docker
 ipython
 black
 isort
+pytest
+pytest-django
