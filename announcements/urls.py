@@ -1,5 +1,5 @@
 from django.urls import path
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import SimpleRouter
 
 from announcements.apps import AnnouncementsConfig
 from announcements.views import AnnouncementsListAPIView, AnnouncementsCreateAPIView, AnnouncementsRetrieveAPIView, \
@@ -7,7 +7,7 @@ from announcements.views import AnnouncementsListAPIView, AnnouncementsCreateAPI
 
 app_name = AnnouncementsConfig.name
 
-router = DefaultRouter()
+router = SimpleRouter()
 router.register(r"reviews", ReviewViewSet, basename="reviews")
 
 urlpatterns = [

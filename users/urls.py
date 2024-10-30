@@ -1,6 +1,6 @@
 from django.urls import path
 from rest_framework.permissions import AllowAny
-from rest_framework.routers import DefaultRouter
+from rest_framework.routers import SimpleRouter
 
 from users.apps import UsersConfig
 from users.views import UserViewSet, EmailConfirmAPIView, ResetPasswordApiView, ResetPasswordConfirmApiView
@@ -9,7 +9,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 app_name = UsersConfig.name
 
-router = DefaultRouter()
+router = SimpleRouter()
 router.register(r"users", UserViewSet, basename="users")
 
 urlpatterns = [
