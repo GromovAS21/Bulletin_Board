@@ -35,7 +35,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
 
     def get_permissions(self):
-        if self.action == "list":
+        if self.action in ("list", "update", "partial_update"):
             self.permission_classes = (IsAdminUser, )
         if self.action == "create":
             self.permission_classes = (AllowAny,)

@@ -6,6 +6,28 @@ from users.tests.conftest import user_fixture, user_is_owner_fixture, admin_fixt
 
 from announcements.models import Review
 
+@pytest.mark.django_db
+def test_review_create(api_client, user_fixture, announcement_fixture):
+    """
+    Тест создания нового отзыва
+    """
+
+    url = reverse("announcements:reviews-list")
+    data = {
+        "text": "new text",
+        "announcement": announcement_fixture.pk
+    }
+    response = api_client.post(url, data)
+
+    assert response.status_code == status.HTTP_401_UNAUTHORIZED
+
+    api_client.force_authenticate(user_fixture)
+    response = api_client.post(url, data)
+
+    assert response.status_code == status.HTTP_201_CREATED
+    assert response.json()["text"] == data["text"]
+    assert Review.objects.count() == 1
+    assert Review.objects.first().author == user_fixture
 
 @pytest.mark.django_db
 def test_review_list(api_client, review_fixture, user_is_owner_fixture, user_fixture):
