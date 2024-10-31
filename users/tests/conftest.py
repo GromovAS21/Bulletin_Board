@@ -23,7 +23,7 @@ def user_fixture():
     """
     фикстура модели User без авторизации
     """
-    user = User.objects.create(email="test1@test.ru", password="Qwerty", is_active=True)
+    user = User.objects.create(email="test1@test.ru", password="Qwerty", is_active=True, token="123test")
     return user
 
 @pytest.fixture

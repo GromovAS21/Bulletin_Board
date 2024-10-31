@@ -13,9 +13,9 @@ router = SimpleRouter()
 router.register(r"users", UserViewSet, basename="users")
 
 urlpatterns = [
-    path('users/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('users/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('users/token/', TokenObtainPairView.as_view(permission_classes=(AllowAny,)), name='token_obtain_pair'),
+    path('users/token/refresh/', TokenRefreshView.as_view(permission_classes=(AllowAny,)), name='token_refresh'),
     path('users/email-confirm/<str:token>', EmailConfirmAPIView.as_view(permission_classes=(AllowAny,)), name='email_confirm'),
     path('users/reset_password/', ResetPasswordApiView.as_view(), name='reset_password'),
-    path('users/reset_password_confirm/', ResetPasswordConfirmApiView.as_view(), name='reset_password'),
+    path('users/reset_password_confirm/', ResetPasswordConfirmApiView.as_view(), name='reset_password_confirm'),
 ] + router.urls

@@ -1,3 +1,5 @@
+from http.client import responses
+
 import pytest
 from django.urls import reverse
 from rest_framework import status
@@ -111,3 +113,49 @@ def test_user_delete(api_client, user_fixture, user_is_owner_fixture):
 
     assert response.status_code == status.HTTP_204_NO_CONTENT
     assert User.objects.count() == 1
+
+@pytest.mark.django_db
+def test_user_email_confirm(user_fixture, client):
+    """
+    Тестирование подтверждения электронной почты
+    """
+
+    url = reverse("users:email_confirm", kwargs={"token": user_fixture.token})
+    response = client.get(url)
+
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json()["message"] == "Ваша учетная запись подтверждена!"
+
+@pytest.mark.django_db
+def test_user_reset_password(user_fixture, api_client):
+    """
+    Тестирование сброса пароля
+    """
+
+    url = reverse("users:reset_password")
+    data = {
+        "email":  user_fixture.email
+    }
+    api_client.force_authenticate(user_fixture)
+    response = api_client.post(url, data)
+
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json()["message"] == "На Вашу электронную почту направлено сообщение для изменения пароля"
+
+@pytest.mark.django_db
+def test_user_reset_password_confirm(user_fixture, api_client):
+    """
+    Тестирование подтверждения сброса пароля
+    """
+
+    url = reverse("users:reset_password_confirm")
+    data = {
+        "uid": user_fixture.id,
+        "token": user_fixture.token,
+        "new_password": "NewPassword123"
+    }
+    api_client.force_authenticate(user_fixture)
+    response = api_client.post(url, data)
+
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json()["message"] == "Ваш пароль успешно изменен"
