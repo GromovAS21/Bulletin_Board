@@ -24,6 +24,9 @@ class IsUserProfile(BasePermission):
     """
 
     def has_object_permission(self, request, view, obj):
-        return request.user.email == obj.email
+        try:
+            return request.user.email == obj.email
+        except AttributeError:
+            return False
 
 

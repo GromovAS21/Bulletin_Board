@@ -2,6 +2,7 @@ import pytest
 from django.urls import reverse
 from pytest_django.fixtures import client
 from rest_framework import status
+from users.tests.conftest import user_fixture, user_is_owner_fixture, api_client
 
 from announcements.models import Announcement
 

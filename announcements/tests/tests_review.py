@@ -1,7 +1,8 @@
 import pytest
 from django.urls import reverse
-from pytest_django.fixtures import admin_user
 from rest_framework import status
+
+from users.tests.conftest import user_fixture, user_is_owner_fixture, admin_fixture, api_client
 
 from announcements.models import Review
 
@@ -60,6 +61,12 @@ def test_review_update(api_client, review_fixture, user_is_owner_fixture, user_f
     data = {
         "text": "test text updated",
     }
+
+    response = api_client.patch(url, data)
+    response_1 = api_client.put(url, data)
+
+    assert response.status_code == status.HTTP_404_NOT_FOUND
+    assert response_1.status_code == status.HTTP_404_NOT_FOUND
 
     api_client.force_authenticate(user_is_owner_fixture)
     response = api_client.patch(url, data)

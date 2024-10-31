@@ -105,7 +105,10 @@ class ReviewViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         if self.request.user.is_staff or self.request.user.is_superuser:
             return Review.objects.all()
-        return Review.objects.filter(author=self.request.user)
+        try:
+            return Review.objects.filter(author=self.request.user)
+        except TypeError:
+            return Review.objects.none()
 
 
 class ReviewListADSPaginator(generics.ListAPIView):
