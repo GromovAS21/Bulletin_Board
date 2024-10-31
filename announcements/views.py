@@ -27,10 +27,11 @@ class AnnouncementsListAPIView(generics.ListAPIView):
 
 class AnnouncementListADSPaginator(AnnouncementsListAPIView):
     """
-    Выводит список объявлений с пагинацией в 4 страницы
+    Выводит список объявлений с пагинацией в 4 экземпляра
     """
 
     pagination_class = ADSPagination
+
 
 class AnnouncementsRetrieveAPIView(generics.RetrieveAPIView):
     """
@@ -43,8 +44,6 @@ class AnnouncementsRetrieveAPIView(generics.RetrieveAPIView):
         if self.request.user.is_staff or self.request.user.is_superuser:
             return AnnouncementRetrieveAdminSerializer
         return AnnouncementRetrieveUserSerializer
-
-
 
 
 class AnnouncementsCreateAPIView(generics.CreateAPIView):
@@ -108,4 +107,18 @@ class ReviewViewSet(viewsets.ModelViewSet):
             return Review.objects.all()
         return Review.objects.filter(author=self.request.user)
 
+
+class ReviewListADSPaginator(generics.ListAPIView):
+    """
+    Выводит список отзывов с пагинацией в 4 экземпляра
+    """
+    serializer_class = ReviewUpdateSerializer
+    pagination_class = ADSPagination
+    queryset = Review.objects.all()
+    permission_classes = ()
+
+    def get_queryset(self):
+        if self.request.user.is_staff or self.request.user.is_superuser:
+            return Review.objects.all()
+        return Review.objects.filter(author=self.request.user)
 
