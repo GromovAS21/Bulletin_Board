@@ -14,7 +14,7 @@ from config.settings import EMAIL_HOST_USER
 from users.models import User
 from users.permissions import IsUserProfile, IsSuperUser
 from users.serializers import ProfileAdminSerializer, ProfileUserSerializer, ResetPasswordSerializer, \
-    ResetPasswordConfirmSerializer
+    ResetPasswordConfirmSerializer, ProfileCreateSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -31,12 +31,16 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.request.user.is_staff or self.request.user.is_superuser:
             return ProfileAdminSerializer
+        if self.action == 'create' and not self.request.user.is_authenticated:
+            return ProfileCreateSerializer
         return ProfileUserSerializer
 
 
     def get_permissions(self):
-        if self.action in ("list", "update", "partial_update"):
+        if self.action == "list":
             self.permission_classes = (IsAdminUser, )
+        if self.action in ("update", "partial_update"):
+            self.permission_classes = (IsAdminUser | IsUserProfile, )
         if self.action == "create":
             self.permission_classes = (AllowAny,)
         if self.action == "retrieve":
