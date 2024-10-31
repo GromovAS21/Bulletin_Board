@@ -70,6 +70,9 @@ def test_basket_addition_or_delete(api_client, user_is_owner_fixture, announceme
     }
     api_client.force_authenticate(user_is_owner_fixture)
     response = api_client.post(url, data)
+    response_1 = api_client.post(url, data={})
+
+    assert response_1.status_code == status.HTTP_400_BAD_REQUEST
 
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["message"] == "Товар добавлен в корзину"

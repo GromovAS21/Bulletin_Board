@@ -1,8 +1,7 @@
 import pytest
 from django.urls import reverse
-from pytest_django.fixtures import client
 from rest_framework import status
-from users.tests.conftest import user_fixture, user_is_owner_fixture, api_client
+from users.tests.conftest import user_fixture, user_is_owner_fixture, api_client, admin_fixture
 
 from announcements.models import Announcement
 
@@ -49,7 +48,7 @@ def test_announcement_list(announcement_fixture, api_client, user_fixture):
     assert response.json()["results"][0]["title"] == "test title"
 
 @pytest.mark.django_db
-def test_announcement_retrieve(api_client, user_is_owner_fixture, user_fixture, announcement_fixture):
+def test_announcement_retrieve(api_client, user_is_owner_fixture, user_fixture, announcement_fixture, admin_fixture):
     """
     Тестирование просмотра одного объявления
     """
@@ -60,6 +59,12 @@ def test_announcement_retrieve(api_client, user_is_owner_fixture, user_fixture, 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
 
     api_client.force_authenticate(user=user_is_owner_fixture)
+    response = api_client.get(url)
+
+    assert response.status_code == status.HTTP_200_OK
+    assert response.json()["title"] == "test title"
+
+    api_client.force_authenticate(user=admin_fixture)
     response = api_client.get(url)
 
     assert response.status_code == status.HTTP_200_OK
