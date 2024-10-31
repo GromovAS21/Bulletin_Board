@@ -159,3 +159,20 @@ def test_user_reset_password_confirm(user_fixture, api_client):
 
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["message"] == "Ваш пароль успешно изменен"
+
+@pytest.mark.django_db
+def test_get_token(client):
+    """
+    Тестирование получения токена
+    """
+
+    url = reverse("users:token_obtain_pair")
+    user = User.objects.create(email="test@test.ru", password="test", is_active=True)
+    data = {
+        "email": "test@test.ru",
+        "password": "test"
+    }
+    response = client.post(url, data)
+
+    assert response.json()["detail"] == "No active account found with the given credentials"
+    assert User.objects.all().first() == user
