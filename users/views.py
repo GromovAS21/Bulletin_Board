@@ -46,7 +46,7 @@ class UserViewSet(viewsets.ModelViewSet):
         if self.action == "retrieve":
             self.permission_classes = (IsUserProfile | IsAdminUser, )
         if self.action == "destroy":
-            self.permission_classes = (IsSuperUser,)
+            self.permission_classes = (IsSuperUser | IsUserProfile,)
         return super().get_permissions()
 
 
