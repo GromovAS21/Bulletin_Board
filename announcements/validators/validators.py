@@ -1,8 +1,7 @@
-from IPython.core.release import author
 from rest_framework.exceptions import ValidationError
 from pathlib import Path
 
-from announcements.models import Review, Announcement
+from announcements.models import Announcement
 
 
 class ForbiddenWordValidator:
@@ -28,14 +27,18 @@ class ForbiddenWordValidator:
 
         for word in forbidden_words:
             try:
-                if word in announcement_title_field or word in announcement_description_field:
+                if word in announcement_title_field.lower() or word in announcement_description_field.lower():
                     raise ValidationError(f"Имеется запрещенное слово в тексте")
             except TypeError:
                 pass
+            except AttributeError:
+                pass
             try:
-                if word in review_text_field:
+                if word in review_text_field.lower():
                     raise ValidationError(f"Имеется запрещенное слово в тексте")
             except TypeError:
+                pass
+            except AttributeError:
                 pass
 
 class RepeatAnnouncementValidator(ForbiddenWordValidator):
@@ -57,7 +60,10 @@ class RepeatAnnouncementValidator(ForbiddenWordValidator):
         if Announcement.objects.filter(title=title_field, description=description_field, price=price_field).exists():
             raise ValidationError("Такое объявление уже существует")
 
+def price_zero_validator(value):
+    """
+    Валидатор для проверки цены объявления равной нулю
+    """
 
-
-
-
+    if not value:
+        raise ValidationError("Цена объявления не может быть равна нулю")

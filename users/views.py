@@ -31,7 +31,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.request.user.is_staff or self.request.user.is_superuser:
             return ProfileAdminSerializer
-        if self.action == 'create' and not self.request.user.is_authenticated:
+        if self.action == 'create':
             return ProfileCreateSerializer
         return ProfileUserSerializer
 

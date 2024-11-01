@@ -3,7 +3,7 @@ from rest_framework.fields import SerializerMethodField
 
 from announcements.models import Announcement, Review
 from announcements.validators.validators import ForbiddenWordValidator, \
-    RepeatAnnouncementValidator
+    RepeatAnnouncementValidator, price_zero_validator
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -45,6 +45,7 @@ class AnnouncementSerializer(serializers.ModelSerializer):
     """
     author = serializers.CharField(read_only=True)
     reviews = SerializerMethodField(read_only=True)
+    price = serializers.IntegerField(validators=(price_zero_validator,))
 
 
     class Meta:

@@ -82,6 +82,10 @@ def test_announcement_update(api_client, user_is_owner_fixture, user_fixture, an
         "title": "test_title_updated",
         "price": 200,
     }
+    data_1 = {
+        "title": "test_title_updated",
+        "price": 300,
+    }
     response = api_client.put(url, data)
     response_1 = api_client.patch(url, data)
 
@@ -97,7 +101,7 @@ def test_announcement_update(api_client, user_is_owner_fixture, user_fixture, an
 
     api_client.force_authenticate(user_is_owner_fixture)
     response = api_client.put(url, data)
-    response_1 = api_client.patch(url, data)
+    response_1 = api_client.patch(url, data_1)
 
     assert response.status_code == status.HTTP_200_OK
     assert response_1.status_code == status.HTTP_200_OK
