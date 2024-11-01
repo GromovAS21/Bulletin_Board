@@ -2,7 +2,8 @@ from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
 
 from announcements.models import Announcement, Review
-from announcements.validators.validators import ForbiddenWordValidator
+from announcements.validators.validators import ForbiddenWordValidator, \
+    RepeatAnnouncementValidator
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -53,6 +54,11 @@ class AnnouncementSerializer(serializers.ModelSerializer):
             ForbiddenWordValidator(
                 announcement_title="title",
                 announcement_description="description"
+            ),
+            RepeatAnnouncementValidator(
+                title="title",
+                description="description",
+                price="price"
             )
         ]
 
