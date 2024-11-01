@@ -4,7 +4,7 @@ from rest_framework.permissions import AllowAny, IsAdminUser
 
 from announcements.models import Announcement, Review
 from announcements.paginations import ADSPagination, ListPagination
-from announcements.serializers import AnnouncementListSerializer, \
+from announcements.serializers import AnnouncementSerializer, \
     AnnouncementRetrieveAdminSerializer, \
     AnnouncementRetrieveUserSerializer, ReviewSerializer, ReviewUpdateSerializer
 from users.permissions import IsOwner
@@ -15,7 +15,7 @@ class AnnouncementsListAPIView(generics.ListAPIView):
     Выводит список всех объявлений
     """
 
-    serializer_class = AnnouncementListSerializer
+    serializer_class = AnnouncementSerializer
     queryset = Announcement.objects.all()
     permission_classes = (AllowAny, )
     pagination_class = ListPagination
@@ -51,7 +51,7 @@ class AnnouncementsCreateAPIView(generics.CreateAPIView):
     Создает новое объявление
     """
 
-    serializer_class = AnnouncementListSerializer
+    serializer_class = AnnouncementSerializer
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
@@ -62,7 +62,7 @@ class AnnouncementsUpdateAPIView(generics.UpdateAPIView):
     Изменяет существующее объявление
     """
 
-    serializer_class = AnnouncementListSerializer
+    serializer_class = AnnouncementSerializer
     queryset = Announcement.objects.all()
     permission_classes = (IsAdminUser | IsOwner,)
 

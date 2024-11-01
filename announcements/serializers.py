@@ -2,6 +2,8 @@ from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
 
 from announcements.models import Announcement, Review
+from announcements.validators.validators import ForbiddenWordValidator
+
 
 class ReviewSerializer(serializers.ModelSerializer):
     """
@@ -13,6 +15,11 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = "__all__"
+        validators = [
+            ForbiddenWordValidator(
+                review_text="text"
+            )
+        ]
 
 class ReviewUpdateSerializer(serializers.ModelSerializer):
     """
@@ -25,8 +32,13 @@ class ReviewUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = "__all__"
+        validators = [
+            ForbiddenWordValidator(
+                review_text="text"
+            )
+        ]
 
-class AnnouncementListSerializer(serializers.ModelSerializer):
+class AnnouncementSerializer(serializers.ModelSerializer):
     """
     Сериализатор модели Announcement для просмотра всех объявлений
     """
@@ -37,8 +49,15 @@ class AnnouncementListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Announcement
         exclude = ("created_at",)
+        validators = [
+            ForbiddenWordValidator(
+                announcement_title="title",
+                announcement_description="description"
+            )
+        ]
 
-    def get_reviews(self, obj):
+    @staticmethod
+    def get_reviews(obj):
         return Review.objects.filter(announcement=obj).count()
 
 
