@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "announcements",
     "users",
     "baskets",
+    "orders",
 ]
 
 MIDDLEWARE = [
