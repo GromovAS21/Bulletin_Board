@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import IntegerField
 
+from announcements.models import Announcement
 from baskets.models import Basket
 from users.models import User
 
@@ -25,8 +26,12 @@ class Order(models.Model):
         verbose_name="Корзина заказа",
         blank=True,
         null=True,
-
-
+    )
+    goods = models.ManyToManyField(
+        Announcement,
+        verbose_name="Товары",
+        blank=True,
+        null=True
     )
     created_at = models.DateTimeField(
         verbose_name="Дата создания заказа",
@@ -49,11 +54,18 @@ class Order(models.Model):
         blank=True,
         null=True
     )
+    CHOICES_STATUS = [
+        ("unpaid", "Не оплачен"),
+        ("paid", "Оплачен"),
+        ]
+
     status = models.CharField(
         max_length=100,
         verbose_name="Статус заказа",
-        default="Created"
+        choices=CHOICES_STATUS,
+        default="unpaid"
     )
+
 
     class Meta:
         verbose_name = "Заказ"
