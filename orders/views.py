@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics
+from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -13,7 +14,7 @@ from orders.services import create_stripe_product, create_price_stripe_product, 
 from users.permissions import IsOwner, IsSuperUser
 
 
-class OrderLstView(generics.ListAPIView):
+class OrderListView(generics.ListAPIView):
     """
     Представление получение списка Заказов
     """
@@ -25,6 +26,35 @@ class OrderLstView(generics.ListAPIView):
         if self.request.user.is_staff:
             return Order.objects.all()
         return Order.objects.filter(author=self.request.user)
+
+
+class OrderRetrieveAPIView(generics.RetrieveAPIView):
+    """
+    Представление получение Заказа
+    """
+
+    serializer_class = OrderSerializer
+    queryset = Order.objects.all()
+    permission_classes = (IsOwner | IsAdminUser,)
+
+
+class OrderUpdateAPIView(generics.UpdateAPIView):
+    """
+    Представление изменения Заказа
+    """
+    serializer_class = OrderSerializer
+    queryset = Order.objects.all()
+    permission_classes = (IsAdminUser,)
+
+
+class OrderDeleteAPIView(generics.DestroyAPIView):
+    """
+    Представление удаления Заказа
+    """
+
+    queryset = Order.objects.all()
+    permission_classes = (IsAdminUser,)
+
 
 class OrderAPIView(APIView):
     """
@@ -67,8 +97,3 @@ def success_pay(request):
             order.save(update_fields=["status"])
 
         return render(request, "orders/success_pay.html")
-
-
-
-
-
