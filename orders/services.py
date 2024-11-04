@@ -1,6 +1,5 @@
 import stripe
 
-from baskets.models import Basket
 from config.settings import STRIPE_API_KEY
 from orders.models import Order
 
@@ -21,7 +20,7 @@ def create_price_stripe_product(product:Order, stripe_product) -> str:
 
     stripe_price = stripe.Price.create(
         currency="rub",
-        unit_amount=product_price * 1000,
+        unit_amount=product_price * 100,
         product_data={"name": stripe_product},
     )
     return stripe_price.get("id")
@@ -32,7 +31,7 @@ def create__stripe_session(price):
     """
 
     session = stripe.checkout.Session.create(
-        success_url="https://127.0.0.1:8000/",
+        success_url="http://127.0.0.1:8000/orders/success_pay/",
         line_items=[{"price": price, "quantity": 1}],
         mode="payment",
     )

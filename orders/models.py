@@ -15,11 +15,17 @@ class Order(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Автор заказа",
         related_name="orders",
+        blank=True,
+        null=True,
+
     )
     basket = models.ForeignKey(
         Basket,
         on_delete=models.CASCADE,
         verbose_name="Корзина заказа",
+        blank=True,
+        null=True,
+
 
     )
     created_at = models.DateTimeField(
@@ -28,6 +34,8 @@ class Order(models.Model):
     )
     amount = IntegerField(
         verbose_name="Сумма заказа",
+        blank=True,
+        null=True,
     )
     session_id = models.CharField(
         max_length=255,
