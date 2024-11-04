@@ -7,10 +7,10 @@ from orders.views import OrderAPIView, success_pay, OrderListView, OrderRetrieve
 app_name = OrdersConfig.name
 
 urlpatterns = [
-    path("orders/", OrderListView.as_view(), name="order_list"),
-    path("orders/<int:pk>/", OrderRetrieveAPIView.as_view(), name="order_retrieve"),
-    path("orders/create/", OrderAPIView.as_view(), name="order_create"),
-    path("orders/<int:pk>/update/", OrderUpdateAPIView.as_view(), name="order_update"),
-    path("orders/<int:pk>/delete/", OrderDeleteAPIView.as_view(), name="order_delete"),
-    path("orders/success_pay/", success_pay, name="order_success_pay"),
+    path("orders/", OrderListView.as_view(), name="orders_list"),
+    path("orders/<int:pk>/", OrderRetrieveAPIView.as_view(), name="orders_retrieve"),
+    path("orders/create/", OrderAPIView.as_view(), name="orders_create"),
+    path("orders/<int:pk>/update/", OrderUpdateAPIView.as_view(), name="orders_update"),
+    path("orders/<int:pk>/delete/", OrderDeleteAPIView.as_view(), name="orders_delete"),
+    path("orders/success_pay/", success_pay, name="orders_success_pay"),
 ]

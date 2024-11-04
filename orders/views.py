@@ -4,14 +4,13 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from announcements.models import Announcement
 from announcements.paginations import ListPagination
 from baskets.models import Basket
 from orders.models import Order
 from orders.serializers import OrderSerializer
 from orders.services import create_stripe_product, create_price_stripe_product, create__stripe_session, \
     check_stripe_status_pay
-from users.permissions import IsOwner, IsSuperUser
+from users.permissions import IsOwner
 
 
 class OrderListView(generics.ListAPIView):
