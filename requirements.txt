@@ -16,4 +16,5 @@ pytest-django
 pytest-cov
 stripe
 celery
+django-celery-beat
 redis

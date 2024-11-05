@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     "corsheaders",
     "drf_yasg",
     "django_filters",
+    "django_celery_beat",
 
     "announcements",
     "users",

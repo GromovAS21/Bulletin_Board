@@ -1,6 +1,5 @@
 import secrets
 
-from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, filters, status
@@ -9,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from announcements.paginations import ListPagination
+from announcements.tasks import send_mail_from_email
 from baskets.models import Basket
 from config.settings import EMAIL_HOST_USER
 from users.models import User
@@ -60,7 +60,7 @@ class UserViewSet(viewsets.ModelViewSet):
         host = self.request.get_host()
         url = f"http://{host}/users/email-confirm/{token}"
         user.save(update_fields=["token", "is_active", "password"])
-        send_mail(
+        send_mail_from_email.delay(
             "Активация учетной записи",
             f"Для активации учетной записи пройдите по ссылке {url}",
             EMAIL_HOST_USER,
@@ -92,7 +92,7 @@ class ResetPasswordApiView(APIView):
             email = request.data.get("email")
             user = get_object_or_404(User, email=email)
             if user:
-                send_mail(
+                send_mail_from_email.delay(
                     subject="Сброс пароля",
                     message=f"Данные для восстановления пароля:"
                             f"\nuid: {user.pk}"
