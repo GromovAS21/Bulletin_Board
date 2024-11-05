@@ -153,7 +153,7 @@ CELERY_BEAT_SCHEDULE = {
         "schedule": timedelta(days=1),
     },
     "sand_advertising_message":{
-        "task": "users.tasks.sand_advertising_message",
+        "task": "users.tasks.tasks.sand_advertising_message",
         "schedule": timedelta(days=7),
     }
 }
