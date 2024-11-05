@@ -13,7 +13,7 @@ from users.permissions import IsOwner
 
 class BasketListAPIView(generics.ListAPIView):
     """
-    Получение корзины пользователя
+    Получение всех корзин пользователей
     """
     serializer_class = BasketSerializer
     queryset = Basket.objects.all()
