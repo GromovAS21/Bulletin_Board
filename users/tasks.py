@@ -1,6 +1,9 @@
 from datetime import datetime
+from pathlib import Path
+from random import choice
 
 from celery import shared_task
+from drf_yasg.openapi import Paths
 
 from announcements.tasks import send_mail_from_email
 from config.settings import EMAIL_HOST_USER
@@ -23,3 +26,20 @@ def check_birthday_users():
             [user.email]
         )
 
+@shared_task
+def sand_advertising_message():
+    """
+    Отправка рекламного письма на почту всех пользователей
+    """
+
+    with open(Path(__file__).parent.joinpath("advertising_messages.txt"), "r", encoding="utf-8") as file:
+        messages = file.read().splitlines()
+        message_value = choice(messages)
+        users = User.objects.filter(is_active=True)
+        for user in users:
+            send_mail_from_email(
+                "Рекламное письмо",
+                message_value,
+                EMAIL_HOST_USER,
+                [user.email]
+            )

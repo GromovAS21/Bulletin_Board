@@ -151,6 +151,10 @@ CELERY_BEAT_SCHEDULE = {
     "check_birthday_users":{
         "task": "users.tasks.check_birthday_users",
         "schedule": timedelta(days=1),
+    },
+    "sand_advertising_message":{
+        "task": "users.tasks.sand_advertising_message",
+        "schedule": timedelta(days=7),
     }
 }
 

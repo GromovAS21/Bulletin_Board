@@ -3,7 +3,7 @@ from django.core.mail import send_mail
 
 
 @shared_task
-def send_mail_from_email(subject, message, from_mail, recipient_list):
+def send_mail_from_email(subject, message, from_email, recipient_list):
     """
     Отправка письма
     """
@@ -11,6 +11,6 @@ def send_mail_from_email(subject, message, from_mail, recipient_list):
     send_mail(
         subject,
         message,
-        from_mail,
+        from_email,
         recipient_list,
     )
