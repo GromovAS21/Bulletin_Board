@@ -1,0 +1,90 @@
+[
+  {
+    "model": "users.user",
+    "pk": 2,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$fQ8sDN0dhlUQjqcLI8gveI$EE0RWEGz+fEYgxXhFdvWfyZIaGsFv6B/Fa/KjNsB8TI=",
+      "last_login": "2024-11-04T09:13:44Z",
+      "is_superuser": true,
+      "is_staff": true,
+      "is_active": true,
+      "date_joined": "2024-10-21T09:04:29Z",
+      "first_name": null,
+      "last_name": null,
+      "phone": null,
+      "email": "admin@test.ru",
+      "role": "admin",
+      "image": "",
+      "token": null,
+      "date_born": "2023-06-22",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 45,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$YRgLO64FGpqsAoh4SnOraf$bS+5LOH3s7leYJV/KF+bT1tShX3dp8XBNAopHJCaQtE=",
+      "last_login": null,
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2024-11-07T10:40:26Z",
+      "first_name": "test",
+      "last_name": "testov",
+      "phone": null,
+      "email": "test@test.ru",
+      "role": "user",
+      "image": "",
+      "token": "9e79f7527ae8c73830e8f9c4dba56619",
+      "date_born": "1990-05-21",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 46,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$tebLYdLzwghL6JZI1PdeII$iKgzH8/8BWEBRPt1fJcF3Att4uC6VRM5i1m/8UNeeWY=",
+      "last_login": null,
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": true,
+      "date_joined": "2024-11-07T10:40:32Z",
+      "first_name": "test1",
+      "last_name": "testov1",
+      "phone": null,
+      "email": "test1@test.ru",
+      "role": "user",
+      "image": "",
+      "token": "08bbd753e6ad296374798977f4c0c1b8",
+      "date_born": "2021-06-17",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "users.user",
+    "pk": 47,
+    "fields": {
+      "password": "pbkdf2_sha256$870000$UpWcmlVmlNkn6qoo4ZlaxI$80tCbrYL/mu6RIx6gYLGWetbNbx1V4N/dPnZygRCxp4=",
+      "last_login": null,
+      "is_superuser": false,
+      "is_staff": false,
+      "is_active": false,
+      "date_joined": "2024-11-07T10:43:54.681Z",
+      "first_name": null,
+      "last_name": null,
+      "phone": null,
+      "email": "test2@test.ru",
+      "role": "user",
+      "image": "",
+      "token": "9333e5c757ce6a4d5acdbea064cc20d5",
+      "date_born": null,
+      "groups": [],
+      "user_permissions": []
+    }
+  }
+]

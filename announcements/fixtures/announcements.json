@@ -1,0 +1,85 @@
+[
+  {
+    "model": "announcements.announcement",
+    "pk": 1,
+    "fields": {
+      "title": "Шапка TEST1",
+      "price": 2500,
+      "description": "Теплая",
+      "author": 46,
+      "created_at": "2024-10-23T11:48:31.753Z"
+    }
+  },
+  {
+    "model": "announcements.announcement",
+    "pk": 5,
+    "fields": {
+      "title": "Арбуз TEST",
+      "price": 100,
+      "description": "Сладкий",
+      "author": 45,
+      "created_at": "2024-10-25T08:26:44.166Z"
+    }
+  },
+  {
+    "model": "announcements.announcement",
+    "pk": 35,
+    "fields": {
+      "title": "Самокат TEST1",
+      "price": 50000,
+      "description": "Быстрый",
+      "author": 46,
+      "created_at": "2024-11-07T10:49:24.324Z"
+    }
+  },
+  {
+    "model": "announcements.review",
+    "pk": 29,
+    "fields": {
+      "text": "Хороший самокат",
+      "author": 45,
+      "announcement": 35,
+      "created_at": "2024-11-07T10:51:43.441Z"
+    }
+  },
+  {
+    "model": "announcements.review",
+    "pk": 30,
+    "fields": {
+      "text": "Реально классный самокат",
+      "author": 45,
+      "announcement": 35,
+      "created_at": "2024-11-07T10:52:11.376Z"
+    }
+  },
+  {
+    "model": "announcements.review",
+    "pk": 31,
+    "fields": {
+      "text": "Подтверждаю вышесказанное.",
+      "author": 46,
+      "announcement": 35,
+      "created_at": "2024-11-07T10:52:44.028Z"
+    }
+  },
+  {
+    "model": "announcements.review",
+    "pk": 32,
+    "fields": {
+      "text": "Не флудите.",
+      "author": 2,
+      "announcement": 35,
+      "created_at": "2024-11-07T10:53:03.422Z"
+    }
+  },
+  {
+    "model": "announcements.review",
+    "pk": 33,
+    "fields": {
+      "text": "ТоП!",
+      "author": 2,
+      "announcement": 5,
+      "created_at": "2024-11-07T10:53:17.675Z"
+    }
+  }
+]
