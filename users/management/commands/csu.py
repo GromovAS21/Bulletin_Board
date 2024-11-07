@@ -1,5 +1,7 @@
+from IPython.core.release import author
 from django.core.management import BaseCommand
 
+from baskets.models import Basket
 from users.models import User
 
 
@@ -17,3 +19,4 @@ class Command(BaseCommand):
         )
         user.set_password("Qwerty")
         user.save()
+        Basket.objects.create(author=user)
