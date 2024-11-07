@@ -1,4 +1,6 @@
+from django.utils.decorators import method_decorator
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, viewsets, filters
 from rest_framework.permissions import AllowAny, IsAdminUser
 
@@ -76,6 +78,12 @@ class AnnouncementsDestroyAPIView(generics.DestroyAPIView):
     permission_classes = (IsAdminUser | IsOwner,)
 
 
+@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="Представления всех отзывов"))
+@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Представление одного отзыва"))
+@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Представление создания отзыва"))
+@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Представление изменения отзыва"))
+@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Представление частичного изменения отзыва"))
+@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Представление удаления отзыва"))
 class ReviewViewSet(viewsets.ModelViewSet):
     """
     Представление для модели Review
@@ -115,6 +123,7 @@ class ReviewListADSPaginator(generics.ListAPIView):
     """
     Выводит список отзывов с пагинацией в 4 экземпляра
     """
+
     serializer_class = ReviewUpdateSerializer
     pagination_class = ADSPagination
     queryset = Review.objects.all()

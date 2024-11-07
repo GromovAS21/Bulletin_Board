@@ -1,4 +1,5 @@
 from django.shortcuts import get_object_or_404
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, status
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
@@ -15,24 +16,29 @@ class BasketListAPIView(generics.ListAPIView):
     """
     Получение всех корзин пользователей
     """
+
     serializer_class = BasketSerializer
     queryset = Basket.objects.all()
     pagination_class = ListPagination
     permission_classes = (IsAdminUser,)
 
+
 class BasketRetrieveAPIView(generics.RetrieveAPIView):
     """
     Получение корзины пользователя
     """
+
     serializer_class = BasketSerializer
     queryset = Basket.objects.all()
     permission_classes = (IsOwner| IsAdminUser, )
 
-class BasksetAdditionOrDeleteAPIView(APIView):
+
+class BasketAdditionOrDeleteAPIView(APIView):
     """
     Добавление/Удаление товара в корзину
     """
 
+    @swagger_auto_schema(request_body=BasketAdditionSerializer)
     def post(self, request):
         serializer = BasketAdditionSerializer(data=request.data)
         announcement_id = request.data.get('announcement_id')

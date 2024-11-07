@@ -1,7 +1,9 @@
 import secrets
 
 from django.shortcuts import get_object_or_404
+from django.utils.decorators import method_decorator
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, filters, status
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.response import Response
@@ -16,7 +18,13 @@ from users.permissions import IsUserProfile, IsSuperUser
 from users.serializers import ProfileAdminSerializer, ProfileUserSerializer, ResetPasswordSerializer, \
     ResetPasswordConfirmSerializer, ProfileCreateSerializer
 
-
+@method_decorator(name="list", decorator=swagger_auto_schema(operation_description="Представление списка всех пользователей"))
+@method_decorator(name="create", decorator=swagger_auto_schema(operation_description="Представление создания пользователя"))
+@method_decorator(name="retrieve", decorator=swagger_auto_schema(operation_description="Представление просмотра конкретного пользователя"))
+@method_decorator(name="retrieve", decorator=swagger_auto_schema(operation_description="Представление просмотра конкретного пользователя"))
+@method_decorator(name="update", decorator=swagger_auto_schema(operation_description="Представление изменения пользователя"))
+@method_decorator(name="partial_update", decorator=swagger_auto_schema(operation_description="Представление частичного изменения пользователя"))
+@method_decorator(name="destroy", decorator=swagger_auto_schema(operation_description="Представление удаления пользователя"))
 class UserViewSet(viewsets.ModelViewSet):
     """
     Контроллер для модели User
@@ -72,7 +80,7 @@ class EmailConfirmAPIView(APIView):
     """
     Представление для подтверждения email-адреса пользователя
     """
-
+    @swagger_auto_schema(responses={200: "Ваша учетная запись подтверждена!"})
     def get(self, request, token):
 
         user = get_object_or_404(User, token=token)
@@ -86,6 +94,8 @@ class ResetPasswordApiView(APIView):
     Представление для сброса пароля
     """
 
+
+    @swagger_auto_schema(request_body=ResetPasswordSerializer, responses={200: "На Вашу электронную почту направлено сообщение для изменения пароля", 400: "BAD_REQUEST"})
     def post(self, request):
         serializer = ResetPasswordSerializer(data=request.data)
         if serializer.is_valid():
@@ -108,7 +118,7 @@ class ResetPasswordConfirmApiView(APIView):
     """
     Представление для cоздания пароля
     """
-
+    @swagger_auto_schema(request_body=ResetPasswordConfirmSerializer, responses={200:"Ваш пароль успешно изменен", 400:"BAD_REQUEST"})
     def post(self, request):
         serializer = ResetPasswordConfirmSerializer(data=request.data)
         if serializer.is_valid():
