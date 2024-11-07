@@ -1,0 +1,41 @@
+[
+  {
+    "model": "baskets.basket",
+    "pk": 4,
+    "fields": {
+      "author": 45,
+      "amount": 0,
+      "goods": []
+    }
+  },
+  {
+    "model": "baskets.basket",
+    "pk": 16,
+    "fields": {
+      "author": 46,
+      "amount": 2600,
+      "goods": [
+        5,
+        1
+      ]
+    }
+  },
+  {
+    "model": "baskets.basket",
+    "pk": 19,
+    "fields": {
+      "author": 2,
+      "amount": 0,
+      "goods": []
+    }
+  },
+  {
+    "model": "baskets.basket",
+    "pk": 20,
+    "fields": {
+      "author": 47,
+      "amount": 0,
+      "goods": []
+    }
+  }
+]
