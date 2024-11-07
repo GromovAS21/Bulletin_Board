@@ -7,6 +7,7 @@ class Command(BaseCommand):
     """
     Команда для создания базовых правил
     """
+
     def handle(self, *args, **options):
         user = User.objects.create(
             email="admin@test.ru",

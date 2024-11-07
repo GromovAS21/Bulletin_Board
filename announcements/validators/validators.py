@@ -1,5 +1,6 @@
-from rest_framework.exceptions import ValidationError
 from pathlib import Path
+
+from rest_framework.exceptions import ValidationError
 
 from announcements.models import Announcement
 
@@ -28,29 +29,30 @@ class ForbiddenWordValidator:
         for word in forbidden_words:
             try:
                 if word in announcement_title_field.lower() or word in announcement_description_field.lower():
-                    raise ValidationError(f"Имеется запрещенное слово в тексте")
+                    raise ValidationError("Имеется запрещенное слово в тексте")
             except TypeError:
                 pass
             except AttributeError:
                 pass
             try:
                 if word in review_text_field.lower():
-                    raise ValidationError(f"Имеется запрещенное слово в тексте")
+                    raise ValidationError("Имеется запрещенное слово в тексте")
             except TypeError:
                 pass
             except AttributeError:
                 pass
 
+
 class RepeatAnnouncementValidator(ForbiddenWordValidator):
     """
     Валидатор для проверки повторения объявления
     """
+
     __slots__ = ("title", "description", "price")
 
     def __init__(self, title, description, price):
         super().__init__(announcement_title=title, announcement_description=description)
         self.price = price
-
 
     def __call__(self, value):
         title_field = value.get(self.announcement_title)
@@ -59,6 +61,7 @@ class RepeatAnnouncementValidator(ForbiddenWordValidator):
 
         if Announcement.objects.filter(title=title_field, description=description_field, price=price_field).exists():
             raise ValidationError("Такое объявление уже существует")
+
 
 def price_zero_validator(value):
     """

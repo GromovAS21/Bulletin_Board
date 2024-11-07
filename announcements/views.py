@@ -1,14 +1,16 @@
 from django.utils.decorators import method_decorator
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework import generics, viewsets, filters
+from rest_framework import filters, generics, viewsets
 from rest_framework.permissions import AllowAny, IsAdminUser
 
 from announcements.models import Announcement, Review
 from announcements.paginations import ADSPagination, ListPagination
-from announcements.serializers import AnnouncementSerializer, \
-    AnnouncementRetrieveAdminSerializer, \
-    AnnouncementRetrieveUserSerializer, ReviewSerializer, ReviewUpdateSerializer
+from announcements.serializers import (AnnouncementRetrieveAdminSerializer,
+                                       AnnouncementRetrieveUserSerializer,
+                                       AnnouncementSerializer,
+                                       ReviewSerializer,
+                                       ReviewUpdateSerializer)
 from users.permissions import IsOwner
 
 
@@ -19,9 +21,13 @@ class AnnouncementsListAPIView(generics.ListAPIView):
 
     serializer_class = AnnouncementSerializer
     queryset = Announcement.objects.all()
-    permission_classes = (AllowAny, )
+    permission_classes = (AllowAny,)
     pagination_class = ListPagination
-    filter_backends = [DjangoFilterBackend, filters.SearchFilter, filters.OrderingFilter]
+    filter_backends = [
+        DjangoFilterBackend,
+        filters.SearchFilter,
+        filters.OrderingFilter,
+    ]
     filterset_fields = ("author",)
     search_fields = ("title",)
     ordering_fields = ("created_at",)
@@ -78,12 +84,12 @@ class AnnouncementsDestroyAPIView(generics.DestroyAPIView):
     permission_classes = (IsAdminUser | IsOwner,)
 
 
-@method_decorator(name='list', decorator=swagger_auto_schema(operation_description="Представления всех отзывов"))
-@method_decorator(name='retrieve', decorator=swagger_auto_schema(operation_description="Представление одного отзыва"))
-@method_decorator(name='create', decorator=swagger_auto_schema(operation_description="Представление создания отзыва"))
-@method_decorator(name='update', decorator=swagger_auto_schema(operation_description="Представление изменения отзыва"))
-@method_decorator(name='partial_update', decorator=swagger_auto_schema(operation_description="Представление частичного изменения отзыва"))
-@method_decorator(name='destroy', decorator=swagger_auto_schema(operation_description="Представление удаления отзыва"))
+@method_decorator(name="list", decorator=swagger_auto_schema(operation_description="Представления всех отзывов"))
+@method_decorator(name="retrieve", decorator=swagger_auto_schema(operation_description="Представление одного отзыва"))
+@method_decorator(name="create", decorator=swagger_auto_schema(operation_description="Представление создания отзыва"))
+@method_decorator(name="update", decorator=swagger_auto_schema(operation_description="Представление изменения отзыва"))
+@method_decorator(name="partial_update", decorator=swagger_auto_schema(operation_description="Представление частичного изменения отзыва"))
+@method_decorator(name="destroy", decorator=swagger_auto_schema(operation_description="Представление удаления отзыва"))
 class ReviewViewSet(viewsets.ModelViewSet):
     """
     Представление для модели Review
@@ -133,4 +139,3 @@ class ReviewListADSPaginator(generics.ListAPIView):
         if self.request.user.is_staff or self.request.user.is_superuser:
             return Review.objects.all()
         return Review.objects.filter(author=self.request.user)
-

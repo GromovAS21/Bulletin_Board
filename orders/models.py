@@ -18,7 +18,6 @@ class Order(models.Model):
         related_name="orders",
         blank=True,
         null=True,
-
     )
     basket = models.ForeignKey(
         Basket,
@@ -57,15 +56,14 @@ class Order(models.Model):
     CHOICES_STATUS = [
         ("unpaid", "Не оплачен"),
         ("paid", "Оплачен"),
-        ]
+    ]
 
     status = models.CharField(
         max_length=100,
         verbose_name="Статус заказа",
         choices=CHOICES_STATUS,
-        default="unpaid"
+        default="unpaid",
     )
-
 
     class Meta:
         verbose_name = "Заказ"

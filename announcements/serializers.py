@@ -2,8 +2,9 @@ from rest_framework import serializers
 from rest_framework.fields import SerializerMethodField
 
 from announcements.models import Announcement, Review
-from announcements.validators.validators import ForbiddenWordValidator, \
-    RepeatAnnouncementValidator, price_zero_validator
+from announcements.validators.validators import (ForbiddenWordValidator,
+                                                 RepeatAnnouncementValidator,
+                                                 price_zero_validator)
 
 
 class ReviewSerializer(serializers.ModelSerializer):
@@ -16,11 +17,8 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = "__all__"
-        validators = [
-            ForbiddenWordValidator(
-                review_text="text"
-            )
-        ]
+        validators = [ForbiddenWordValidator(review_text="text")]
+
 
 class ReviewUpdateSerializer(serializers.ModelSerializer):
     """
@@ -33,20 +31,17 @@ class ReviewUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = "__all__"
-        validators = [
-            ForbiddenWordValidator(
-                review_text="text"
-            )
-        ]
+        validators = [ForbiddenWordValidator(review_text="text")]
+
 
 class AnnouncementSerializer(serializers.ModelSerializer):
     """
     Сериализатор модели Announcement для просмотра всех объявлений
     """
+
     author = serializers.CharField(read_only=True)
     reviews = SerializerMethodField(read_only=True)
     price = serializers.IntegerField(validators=(price_zero_validator,))
-
 
     class Meta:
         model = Announcement

@@ -1,8 +1,9 @@
 from django.urls import path
 
 from orders.apps import OrdersConfig
-from orders.views import OrderAPIView, success_pay, OrderListView, OrderRetrieveAPIView, OrderUpdateAPIView, \
-    OrderDeleteAPIView
+from orders.views import (OrderAPIView, OrderDeleteAPIView, OrderListView,
+                          OrderRetrieveAPIView, OrderUpdateAPIView,
+                          success_pay)
 
 app_name = OrdersConfig.name
 

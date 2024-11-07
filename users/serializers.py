@@ -2,6 +2,7 @@ from rest_framework import serializers
 
 from users.models import User
 
+
 class ProfileCreateSerializer(serializers.ModelSerializer):
     """
     Сериализатор для создания профиля пользователя
@@ -54,6 +55,3 @@ class ResetPasswordConfirmSerializer(serializers.Serializer):
     uid = serializers.IntegerField(required=True)
     token = serializers.CharField(required=True)
     new_password = serializers.CharField(min_length=8, required=True)
-
-
-

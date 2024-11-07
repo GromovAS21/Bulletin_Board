@@ -27,7 +27,6 @@ INSTALLED_APPS = [
     "drf_yasg",
     "django_filters",
     "django_celery_beat",
-
     "announcements",
     "users",
     "baskets",
@@ -45,9 +44,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 ]
 
-CORS_ALLOWED_ORIGINS = (
-    "http://localhost:8000",
-)
+CORS_ALLOWED_ORIGINS = ("http://localhost:8000",)
 
 ROOT_URLCONF = "config.urls"
 
@@ -96,15 +93,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 REST_FRAMEWORK = {
-    "DEFAULT_PERMISSION_CLASSES": (
-        "rest_framework.permissions.IsAuthenticated",
-    ),
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
-    'DEFAULT_FILTER_BACKENDS': (
-        'django_filters.rest_framework.DjangoFilterBackend',
-    )
+    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
 }
 
 SIMPLE_JWT = {
@@ -148,13 +141,12 @@ CELERY_BROKER_URL = os.getenv("CELERY_BROKER_URL")
 CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
 
 CELERY_BEAT_SCHEDULE = {
-    "check_birthday_users":{
+    "check_birthday_users": {
         "task": "users.tasks.tasks.check_birthday_users",
         "schedule": timedelta(days=1),
     },
-    "sand_advertising_message":{
+    "sand_advertising_message": {
         "task": "users.tasks.tasks.sand_advertising_message",
         "schedule": timedelta(days=7),
-    }
+    },
 }
-

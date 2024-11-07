@@ -1,7 +1,8 @@
 from django.urls import path
 
 from baskets.apps import BasketsConfig
-from baskets.views import BasketListAPIView, BasketRetrieveAPIView, BasketAdditionOrDeleteAPIView
+from baskets.views import (BasketAdditionOrDeleteAPIView, BasketListAPIView,
+                           BasketRetrieveAPIView)
 
 app_name = BasketsConfig.name
 

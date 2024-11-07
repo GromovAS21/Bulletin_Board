@@ -10,4 +10,4 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        exclude = ('session_id',)
+        exclude = ("session_id",)

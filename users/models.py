@@ -26,8 +26,8 @@ class User(AbstractUser):
         max_length=11,
         validators=[MinLengthValidator(11)],
         verbose_name="Телефон",
-        blank = True,
-        null = True
+        blank=True,
+        null=True,
     )
     email = models.EmailField(
         unique=True,

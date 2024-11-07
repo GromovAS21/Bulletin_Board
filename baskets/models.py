@@ -14,7 +14,7 @@ class Basket(models.Model):
         on_delete=models.CASCADE,
         verbose_name="Пользователь",
         blank=True,
-        null=True
+        null=True,
     )
     goods = models.ManyToManyField(
         Announcement,
@@ -30,8 +30,8 @@ class Basket(models.Model):
     )
 
     class Meta:
-        verbose_name = "Корзина",
-        verbose_name_plural = "Корзины",
+        verbose_name = ("Корзина",)
+        verbose_name_plural = ("Корзины",)
         ordering = ("id",)
 
     def __str__(self):

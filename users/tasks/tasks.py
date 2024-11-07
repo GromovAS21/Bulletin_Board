@@ -3,7 +3,6 @@ from pathlib import Path
 from random import choice
 
 from celery import shared_task
-from drf_yasg.openapi import Paths
 
 from announcements.tasks import send_mail_from_email
 from config.settings import EMAIL_HOST_USER
@@ -23,8 +22,9 @@ def check_birthday_users():
             "День рождения!",
             f"Привет, {user.first_name if user.first_name else "Дорогой друг"} ! Сегодня твой день рождения. Поздравляем!",
             EMAIL_HOST_USER,
-            [user.email]
+            [user.email],
         )
+
 
 @shared_task
 def sand_advertising_message():

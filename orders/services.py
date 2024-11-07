@@ -5,14 +5,16 @@ from orders.models import Order
 
 stripe.api_key = STRIPE_API_KEY
 
-def create_stripe_product(product:Order) -> str:
+
+def create_stripe_product(product: Order) -> str:
     """
     Создание новый продукт в Stripe
     """
     stripe_product = stripe.Product.create(name=product.basket.goods)
     return stripe_product.get("id")
 
-def create_price_stripe_product(product:Order, stripe_product) -> str:
+
+def create_price_stripe_product(product: Order, stripe_product) -> str:
     """
     Создание цены для продукта в Stripe
     """
@@ -25,6 +27,7 @@ def create_price_stripe_product(product:Order, stripe_product) -> str:
     )
     return stripe_price.get("id")
 
+
 def create__stripe_session(price):
     """
     Создание сессии в Stripe для оплаты
@@ -36,6 +39,7 @@ def create__stripe_session(price):
         mode="payment",
     )
     return session.get("id"), session.get("url")
+
 
 def check_stripe_status_pay(session):
     """

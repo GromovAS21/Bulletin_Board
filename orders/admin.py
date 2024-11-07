@@ -12,4 +12,3 @@ class OrderAdmin(admin.ModelAdmin):
     list_display = ("id", "author", "amount", "status")
     list_filter = ("author", "status")
     search_fields = ("amount",)
-

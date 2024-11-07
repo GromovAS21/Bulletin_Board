@@ -2,9 +2,10 @@ import pytest
 from django.urls import reverse
 from rest_framework import status
 
-from users.tests.conftest import user_fixture, user_is_owner_fixture, admin_fixture, api_client
-
 from announcements.models import Review
+from users.tests.conftest import (admin_fixture, api_client, user_fixture,
+                                  user_is_owner_fixture)
+
 
 @pytest.mark.django_db
 def test_review_create(api_client, user_fixture, announcement_fixture):
@@ -13,10 +14,7 @@ def test_review_create(api_client, user_fixture, announcement_fixture):
     """
 
     url = reverse("announcements:reviews-list")
-    data = {
-        "text": "new text",
-        "announcement": announcement_fixture.pk
-    }
+    data = {"text": "new text", "announcement": announcement_fixture.pk}
     response = api_client.post(url, data)
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -28,6 +26,7 @@ def test_review_create(api_client, user_fixture, announcement_fixture):
     assert response.json()["text"] == data["text"]
     assert Review.objects.count() == 1
     assert Review.objects.first().author == user_fixture
+
 
 @pytest.mark.django_db
 def test_review_list(api_client, review_fixture, user_is_owner_fixture, user_fixture):
@@ -51,6 +50,7 @@ def test_review_list(api_client, review_fixture, user_is_owner_fixture, user_fix
     assert response.status_code == status.HTTP_200_OK
     assert len(response.json()["results"]) == 1
 
+
 @pytest.mark.django_db
 def test_review_retrieve(api_client, review_fixture, user_is_owner_fixture, admin_fixture):
     """
@@ -72,6 +72,7 @@ def test_review_retrieve(api_client, review_fixture, user_is_owner_fixture, admi
 
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["text"] == "test text"
+
 
 @pytest.mark.django_db
 def test_review_update(api_client, review_fixture, user_is_owner_fixture, user_fixture):
@@ -103,6 +104,7 @@ def test_review_update(api_client, review_fixture, user_is_owner_fixture, user_f
 
     assert response.status_code == status.HTTP_404_NOT_FOUND
 
+
 @pytest.mark.django_db
 def test_review_delete(api_client, review_fixture, user_is_owner_fixture, user_fixture):
     """
@@ -121,13 +123,3 @@ def test_review_delete(api_client, review_fixture, user_is_owner_fixture, user_f
     response = api_client.delete(url)
 
     assert response.status_code == status.HTTP_404_NOT_FOUND
-
-
-
-
-
-
-
-
-
-

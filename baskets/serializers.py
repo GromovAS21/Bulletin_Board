@@ -12,6 +12,7 @@ class BasketSerializer(serializers.ModelSerializer):
         model = Basket
         fields = "__all__"
 
+
 class BasketAdditionSerializer(serializers.Serializer):
     """
     Сериализатор для добавления товара в корзину

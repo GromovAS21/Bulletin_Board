@@ -2,10 +2,10 @@ import pytest
 from django.urls import reverse
 from rest_framework import status
 
-from baskets.models import Basket
-
 from announcements.tests.conftest import announcement_fixture
-from users.tests.conftest import api_client, admin_fixture, user_is_owner_fixture, user_fixture
+from baskets.models import Basket
+from users.tests.conftest import (admin_fixture, api_client, user_fixture,
+                                  user_is_owner_fixture)
 
 
 @pytest.fixture
@@ -15,6 +15,7 @@ def basket_fixture(user_is_owner_fixture):
     """
 
     return Basket.objects.create(author=user_is_owner_fixture)
+
 
 @pytest.mark.django_db
 def test_basket_list(api_client, basket_fixture, admin_fixture, user_is_owner_fixture):
@@ -33,6 +34,7 @@ def test_basket_list(api_client, basket_fixture, admin_fixture, user_is_owner_fi
 
     assert response.status_code == status.HTTP_200_OK
     assert len(response.json()["results"]) == 1
+
 
 @pytest.mark.django_db
 def test_basket_retrieve(api_client, user_fixture, user_is_owner_fixture, basket_fixture, admin_fixture):
@@ -58,6 +60,7 @@ def test_basket_retrieve(api_client, user_fixture, user_is_owner_fixture, basket
     assert response.status_code == status.HTTP_200_OK
     assert len(response.json()["goods"]) == 0
 
+
 @pytest.mark.django_db
 def test_basket_addition_or_delete(api_client, user_is_owner_fixture, announcement_fixture, basket_fixture):
     """
@@ -65,9 +68,7 @@ def test_basket_addition_or_delete(api_client, user_is_owner_fixture, announceme
     """
 
     url = reverse("baskets:basket_addition_or_delete")
-    data = {
-        "announcement_id": announcement_fixture.pk
-    }
+    data = {"announcement_id": announcement_fixture.pk}
     api_client.force_authenticate(user_is_owner_fixture)
     response = api_client.post(url, data)
     response_1 = api_client.post(url, data={})

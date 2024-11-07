@@ -1,9 +1,11 @@
 import pytest
 from django.urls import reverse
 from rest_framework import status
-from users.tests.conftest import user_fixture, user_is_owner_fixture, api_client, admin_fixture
 
 from announcements.models import Announcement
+from users.tests.conftest import (admin_fixture, api_client, user_fixture,
+                                  user_is_owner_fixture)
+
 
 @pytest.mark.django_db
 def test_announcement_create(api_client, user_fixture):
@@ -12,11 +14,7 @@ def test_announcement_create(api_client, user_fixture):
     """
 
     url = reverse("announcements:announcements_create")
-    data = {
-        "title": "title new",
-        "description": "description new",
-        "price": 100
-    }
+    data = {"title": "title new", "description": "description new", "price": 100}
     response = api_client.post(url, data)
 
     assert response.status_code == status.HTTP_401_UNAUTHORIZED
@@ -47,6 +45,7 @@ def test_announcement_list(announcement_fixture, api_client, user_fixture):
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["results"][0]["title"] == "test title"
 
+
 @pytest.mark.django_db
 def test_announcement_retrieve(api_client, user_is_owner_fixture, user_fixture, announcement_fixture, admin_fixture):
     """
@@ -70,8 +69,8 @@ def test_announcement_retrieve(api_client, user_is_owner_fixture, user_fixture, 
     assert response.status_code == status.HTTP_200_OK
     assert response.json()["title"] == "test title"
 
-@pytest.mark.django_db
 
+@pytest.mark.django_db
 def test_announcement_update(api_client, user_is_owner_fixture, user_fixture, announcement_fixture):
     """
     Тестирование изменения информации об объявлении
@@ -106,6 +105,7 @@ def test_announcement_update(api_client, user_is_owner_fixture, user_fixture, an
     assert response.status_code == status.HTTP_200_OK
     assert response_1.status_code == status.HTTP_200_OK
     assert response.json()["title"] == "test_title_updated"
+
 
 @pytest.mark.django_db
 def test_announcement_delete(api_client, user_is_owner_fixture, user_fixture, announcement_fixture):

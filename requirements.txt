@@ -8,9 +8,6 @@ python-dotenv
 pillow
 django-filter
 docker
-ipython
-black
-isort
 pytest
 pytest-django
 pytest-cov
@@ -18,3 +15,8 @@ stripe
 celery
 django-celery-beat
 redis
+
+flake8
+ipython
+black
+isort

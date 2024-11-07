@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 from announcements.models import Announcement
 from announcements.paginations import ListPagination
 from baskets.models import Basket
-from baskets.serializers import BasketSerializer, BasketAdditionSerializer
+from baskets.serializers import BasketAdditionSerializer, BasketSerializer
 from users.permissions import IsOwner
 
 
@@ -30,7 +30,7 @@ class BasketRetrieveAPIView(generics.RetrieveAPIView):
 
     serializer_class = BasketSerializer
     queryset = Basket.objects.all()
-    permission_classes = (IsOwner| IsAdminUser, )
+    permission_classes = (IsOwner | IsAdminUser,)
 
 
 class BasketAdditionOrDeleteAPIView(APIView):
@@ -41,7 +41,7 @@ class BasketAdditionOrDeleteAPIView(APIView):
     @swagger_auto_schema(request_body=BasketAdditionSerializer)
     def post(self, request):
         serializer = BasketAdditionSerializer(data=request.data)
-        announcement_id = request.data.get('announcement_id')
+        announcement_id = request.data.get("announcement_id")
 
         if serializer.is_valid():
             basket = Basket.objects.get(author=request.user)
