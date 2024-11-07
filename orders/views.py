@@ -100,4 +100,4 @@ def success_pay(request):
             order.status = check_stripe_status_pay(order.session_id)
             order.save(update_fields=["status"])
 
-        return render(request, "orders/success_pay.html")
+    return render(request, "orders/success_pay.html")
