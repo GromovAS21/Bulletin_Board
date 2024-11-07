@@ -1,19 +1,19 @@
-django
-djangorestframework
-djangorestframework-simplejwt
+django==5.1.2
+djangorestframework==3.15.2
+djangorestframework-simplejwt==5.3.1
 django-cors-headers
 drf-yasg
 psycopg2-binary
 python-dotenv
 pillow
 django-filter
-docker
+docker==7.1.0
 pytest
 pytest-django
 pytest-cov
 stripe
-celery
-django-celery-beat
+celery==5.4.0
+django-celery-beat==2.7.0
 redis
 
 flake8
