@@ -3,7 +3,7 @@ from celery import Celery
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 
-app = Celery("config")
+app = Celery("config", include=["announcements.tasks", "users.tasks.tasks"])
 
 app.config_from_object('django.conf:settings', namespace='CELERY')
 

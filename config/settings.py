@@ -149,7 +149,7 @@ CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
 
 CELERY_BEAT_SCHEDULE = {
     "check_birthday_users":{
-        "task": "users.tasks.check_birthday_users",
+        "task": "users.tasks.tasks.check_birthday_users",
         "schedule": timedelta(days=1),
     },
     "sand_advertising_message":{
