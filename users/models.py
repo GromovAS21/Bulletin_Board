@@ -50,7 +50,6 @@ class User(AbstractUser):
     )
     token = models.CharField(
         max_length=50,
-        editable=False,
         verbose_name="Токен пользователя",
         blank=True,
         null=True,
@@ -70,4 +69,4 @@ class User(AbstractUser):
         ordering = ("id",)
 
     def __str__(self):
-        return f"№ {self.pk} - {self.email}"
+        return self.email
