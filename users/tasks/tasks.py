@@ -12,7 +12,7 @@ from users.models import User
 @shared_task
 def check_birthday_users():
     """
-    Проверка дней рождения пользователей и отправка письма с поздравлением
+    Проверка дней рождения пользователей и отправка письма с поздравлением!
     """
 
     current_date = datetime.now().date()
